@@ -17,7 +17,7 @@ set(CMAKE_EXE_LINKER_FLAGS "-pie -z noexecstack -z relro -z now")
 set(CMAKE_SHARED_LINKER_FLAGS "-z noexecstack -z relro -z now ${CMAKE_SHARED_LINKER_FLAGS}")
 
 # Load catkin and all dependencies required for this package
-set(CATKIN_DEPS geometry_msgs sensor_msgs std_msgs std_srvs rospy roscpp roslib genmsg roslint)
+set(CATKIN_DEPS geometry_msgs sensor_msgs std_msgs std_srvs rospy roscpp roslib genmsg roslint dnb_remote_robot_control)
 find_package(catkin REQUIRED ${CATKIN_DEPS})
 
 catkin_python_setup()
@@ -53,6 +53,7 @@ catkin_package(
     sensor_msgs
     std_msgs
     std_srvs
+    dnb_remote_robot_control
 )
 
 ## Specify additional locations of header files

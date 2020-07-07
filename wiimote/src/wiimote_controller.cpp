@@ -82,7 +82,10 @@ WiimoteNode::WiimoteNode()
   imu_calibrate_srv_ = nh_.advertiseService("/imu/calibrate", &WiimoteNode::serviceImuCalibrateCallback, this);
 
   // Initialize with the ANY Bluetooth Address
-  setBluetoothAddr("00:00:00:00:00:00");
+//  setBluetoothAddr("00:00:00:00:00:00");
+
+  setBluetoothAddr("0C:FC:83:B3:53:06"); // Passcode 60353b38cfc0 (the address reversed) --> HEX TO ASCII --> `5;8ÏÀ https://www.rapidtables.com/convert/number/hex-to-ascii.html
+
 
   wiimote_ = nullptr;
 
@@ -145,7 +148,7 @@ void WiimoteNode::setBluetoothAddr(const char *bt_str)
   str2ba(bt_str, &bt_device_addr_);
 }
 
-bool WiimoteNode::pairWiimote(int flags = 0, int timeout = 5)
+bool WiimoteNode::pairWiimote(int flags = 0, int timeout = -1)
 {
   bool status = true;
 
@@ -155,6 +158,7 @@ bool WiimoteNode::pairWiimote(int flags = 0, int timeout = 5)
   else
     ROS_INFO("Timeout in about %d seconds if not paired.", timeout);
 
+  // Source https://github.com/abstrakraft/cwiid/blob/master/libcwiid/connect.c
   if (!(wiimote_ = wiimote_c::cwiid_open_timeout(&bt_device_addr_, flags, timeout)))
   {
     ROS_ERROR("Unable to connect to wiimote");
@@ -1609,7 +1613,7 @@ int main(int argc, char *argv[])
 
   int pair_timeout;
   double check_connection_interval;
-  ros::param::param<int>("~pair_timeout", pair_timeout, 5);
+  ros::param::param<int>("~pair_timeout", pair_timeout, 5); pair_timeout = -1;
   ros::param::param<double>("~check_connection_interval", check_connection_interval, 0.0);
 
   if (fed_addr)

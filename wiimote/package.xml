@@ -38,10 +38,11 @@
   <depend>sensor_msgs</depend>
   <depend>std_msgs</depend>
   <depend>std_srvs</depend>
+  <depend>dnb_remote_robot_control</depend>
   
   <exec_depend>cwiid</exec_depend>
   <exec_depend>message_runtime</exec_depend>
-
+  
   <export>
     <architecture_independent/>
   </export>
